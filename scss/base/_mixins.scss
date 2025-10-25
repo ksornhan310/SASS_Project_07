@@ -1,0 +1,76 @@
+@use "./variables" as vars;
+@use "sass:math";
+
+@mixin make-breakpoints($dimension, $bypass: false) {
+    @if $bypass {
+        @content;
+    }
+
+    @else {
+        @media (min-width: $dimension) {
+            @content;
+        }
+    }
+}
+
+@mixin make-row-columns($infix) {
+    @for $i from 1 through math.div(vars.$grid-columns, 2) {
+        .row-cols#{$infix}-#{$i} > * {
+            flex: 0 0 auto;
+            width: math.div(100%, $i);
+        }
+    }
+}
+
+@mixin make-columns($infix) {
+    @for $i from 1 through vars.$grid-columns {
+        .col#{$infix}-#{$i} {
+            flex: 0 0 auto;
+            width: math.div(100%, vars.$grid-columns) * $i;
+        }
+    }
+}
+
+@mixin make-offsets($infix) {
+    @for $i from 0 to vars.$grid-columns {
+        .offset#{$infix}-#{$i} {
+            margin-left: if($i > 0, math.div(100%, vars.$grid-columns) * $i, 0);
+        }
+    }
+}
+
+@mixin make-gutters($infix) {
+    @each $i, $ratio in vars.$gutters {
+        .g#{$infix}-#{$i},
+        .gx#{$infix}-#{$i} {
+            --grid-gutter-x: #{vars.$grid-gutter-width * $ratio};
+        }
+
+        .g#{$infix}-#{$i},
+        .gy#{$infix}-#{$i} {
+            --grid-gutter-y: #{vars.$grid-gutter-width * $ratio};
+        }
+    }
+}
+
+@mixin flex-center($display: flex, $align-items: center, $justify-content: center) {
+    display: $display;
+    align-items: $align-items;
+    justify-content: $justify-content;
+}
+
+@mixin make-grid($column: vars.$grid-columns, $column-gap: vars.$grid-gutter-width, $row-gap: vars.$grid-gutter-width) {
+    display: grid;
+    grid-template-columns: repeat($column, 1fr);
+    grid-auto-rows: 285px;
+    column-gap: $column-gap;
+    row-gap: $row-gap;
+}
+
+@mixin make-column-span($start, $span) {
+    grid-column: $start / span $span;
+}
+
+@mixin make-row-span($start, $span) {
+    grid-row: $start / span $span;
+}

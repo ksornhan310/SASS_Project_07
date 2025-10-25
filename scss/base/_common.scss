@@ -1,0 +1,92 @@
+@use "./variables" as vars;
+@use "./mixins" as mixins;
+
+/*============== Common ==============*/
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: var(--font-family-base);
+}
+
+input, textarea, button, select {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn {
+    --height: 64px;
+
+    display: inline-block;
+    min-width: 157px;
+    height: var(--height);
+    padding: 0 16px;
+    line-height: var(--height);
+    border-radius: 8px;
+
+    font-weight: 600;
+    font-size: var(--font-size-lg);
+    text-align: center;
+
+    color: #fff;
+    background: var(--heading-color-primary);
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.section-heading {
+    font-weight: 700;
+    font-size: clamp(2.6rem, 3vw + 1rem, var(--font-size-section-heading));
+    line-height: 1.238;
+    color: var(--heading-color-primary);
+}
+
+.section-desc {
+    font-size: clamp(1.4rem, 1vw + 0.75rem, var(--font-size-md));
+    line-height: 1.75;
+    color: var(--text-color-primary);
+}
+
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: var(--line-clamp, 2);
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.control {
+    @include mixins.flex-center();
+    column-gap: 12px;
+
+    &__dot {        
+        width: 8px;
+        height: 8px;
+        padding: 0;
+        border-radius: 50%;
+        background: var(--control-dot-color);
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+
+    &__dot--active {
+        width: 12px;
+        height: 12px;
+        background: var(--color-primary);
+    }
+}

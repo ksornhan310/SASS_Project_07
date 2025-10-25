@@ -1,0 +1,125 @@
+@use "../base/variables" as vars;
+@use "../base/mixins" as mixins;
+
+/*============== Blog ==============*/
+.blog {
+    position: relative;
+    overflow: hidden;
+    margin-top: 100px;
+    padding: 60px 0;
+
+    &__media {
+        position: relative;
+        height: 444px;
+    }
+
+    &__image {
+        @include mixins.flex-center($justify-content: flex-end);
+
+        position: relative;
+        height: 100%;
+    }
+
+    &__img--sm {
+        position: absolute;
+        top: 18%;
+        left: 0;
+        width: 47%;
+        height: 65%;
+    }
+
+    &__img--lg {
+        width: 65%;
+        height: 100%;
+    }
+
+    &__control {
+        position: absolute;
+        bottom: 0;
+        left: 13%;
+    }
+
+    // Content
+    &__heading,
+    &__author {
+        margin-top: 18px;
+    }
+
+    &__heading {
+
+        &-highlight {
+            position: relative;
+            z-index: 0;
+            font-size: inherit;
+        }
+
+        &-decor {
+            position: absolute;
+            z-index: -1;
+            bottom: -5%;
+            left: 0;
+            width: 4.3em;
+        }
+    }
+
+    &__desc {
+        margin-top: 38px;
+    }
+
+    &__author {
+        display: inline-block;
+        font-size: var(--font-size-sm);
+        line-height: 1.7;
+        color: var(--text-color-secondary);
+    }
+
+    &__blur {
+        position: absolute;
+        z-index: -1;
+        top: 20%;
+        right: -30%;
+        width: 287px;
+        height: 287px;
+        border-radius: 50%;
+        background: var(--color-secondary);
+        filter: blur(258px);
+    }
+}
+
+/*============== Responsive Blog ==============*/
+@media (max-width: 991.98px) {
+    .blog {
+        padding: 0;
+
+        &__row {
+            flex-direction: column-reverse;
+        }
+
+        &__desc {
+            margin-top: 12px;
+        }
+
+        &__author {
+            margin-top: 12px;
+        }
+
+        &__media {
+            margin-top: 28px;
+            height: 262px;
+        }
+
+        &__control {
+            column-gap: 5px;
+
+            &-dot {
+                width: 5px;
+                height: 5px;
+
+                &--active {
+                    width: 7px;
+                    height: 7px;
+                }
+            }
+        }
+    }
+}

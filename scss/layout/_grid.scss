@@ -1,0 +1,73 @@
+@use "../base/variables" as vars;
+@use "../base/mixins" as mixins;
+@use "sass:math";
+@use "sass:map";
+
+/*============== Grid System ==============*/
+%padding-gutter {
+    padding-left: calc(var(--grid-gutter-x) * 0.5);
+    padding-right: calc(var(--grid-gutter-x) * 0.5);
+}
+
+.container-fluid {
+    --grid-gutter-x: #{vars.$grid-gutter-width};
+    --grid-gutter-y: 0;
+
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    @extend %padding-gutter;
+}
+
+.container {
+    @extend .container-fluid;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: calc(var(--grid-gutter-y) * -1);
+    margin-left: calc(var(--grid-gutter-x) * -0.5);
+    margin-right: calc(var(--grid-gutter-x) * -0.5);
+
+    >* {
+        margin-top: calc(var(--grid-gutter-y));
+        @extend %padding-gutter;
+    }
+}
+
+.col {
+    flex: 1 0 0%;
+}
+
+@each $breakpoint, $dimension in vars.$grid-breakpoints {
+    $max-width: map.get(vars.$container-max-widths, $breakpoint);
+    $infix: if($breakpoint == xs, "", "-#{$breakpoint}");
+    $is-xs: $breakpoint == xs;
+
+    @include mixins.make-breakpoints($dimension, $is-xs) {
+        .container {
+            max-width: $max-width;
+
+            @if $breakpoint == xs or $breakpoint == sm or $breakpoint == md {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            @else if $breakpoint == lg or $breakpoint == xl {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        @include mixins.make-row-columns($infix);
+
+        @include mixins.make-columns($infix);
+
+        @include mixins.make-offsets($infix);
+
+        @include mixins.make-gutters($infix);
+    }
+
+}
